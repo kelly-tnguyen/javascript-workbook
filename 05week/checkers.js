@@ -8,13 +8,21 @@ const rl = readline.createInterface({
 });
 
 
-function Checker() {
+class Checker {
   // Your code here
+  constructor(color) {
+    if (color === 'white') {
+      this.symbol = String.fromCharCode(0x125CB);
+    } else {
+      this.symbol = String.fromCharCode(0x125CF);
+    }
+  }
 }
 
 class Board {
   constructor() {
-    this.grid = []
+    this.grid = [];
+    this.checkers = [];
   }
   // method that creates an 8x8 array, filled with null values
   createGrid() {
@@ -53,7 +61,47 @@ class Board {
   }
 
   // Your code here
+
+
+  createCheckers() {
+    let whitePositions = [
+    [0, 1], [0, 3], [0, 5], [0, 7],
+    [1, 0], [1, 2], [1, 4], [1, 6],
+    [2, 1], [2, 3], [2, 5], [2, 7]
+    ]
+    let blackPositions = [
+    [5, 0], [5, 2], [5, 4], [5, 6],
+    [6, 1], [6, 3], [6, 5], [6, 7],
+    [7, 0], [7, 2], [7, 4], [7, 6]
+    ]
+    for (let i = 0; i < 12; i++) {
+      let whiteChecker = new Checker('white');
+      let whiteRow = whitePositions[i][0];
+      let whiteColumn = whitePositions[i][1];
+
+      let blackChecker = new Checker('black')
+      let blackRow = blackPositions[i][0];
+      let blackColumn = blackPositions[i][1];
+
+      this.checkers.push(whiteChecker, blackChecker);
+      this.grid[whiteRow][whiteColumn] = whiteChecker;
+      this.grid[blackRow][blackColumn] = blackChecker;
+    }
+  }
+
+  selectChecker(row, col) {
+    return this.grid[row][col];
+  }
+
+  killChecker(position) {
+    let checker = this.selectChecker(position[0], position[1]);
+    let indexChecker = this.checkers.indexOf(checker);
+    this.checkers.splice(indexChecker, 1);
+
+    this.grid[position[0]][position[1]] = null;
+  }
 }
+
 
 class Game {
   constructor() {
@@ -61,8 +109,27 @@ class Game {
   }
   start() {
     this.board.createGrid();
+    // Your code here
+    this.board.createCheckers();
+  }
+
+  moveChecker(start, end) {
+    const startX = parseInt(start[0]);
+    const startY = parseInt(start[1]);
+    const endX = parseInt(end[0]);
+    const endY = parseInt(end[1]);
+  
+    const checker = this.board.selectChecker(start[0], start[1]);
+  
+    this.board.grid[ endX ][ endY ] = checker;
+    this.board.grid[startX][startY] = null;
+  
+    if (Math.sqrt((endX - startX)^2 + (endY - startY)^2) >= 2) {
+      this.board.killChecker([(endX + startX) / 2, (endY + startY) / 2]);
+    }
   }
 }
+
 
 function getPrompt() {
   game.board.viewGrid();
