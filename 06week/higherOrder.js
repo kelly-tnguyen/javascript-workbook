@@ -24,7 +24,7 @@ function filter(arr, callback) {
 }
 
 
-function reduce(array, callback, accumulator) {
+function reduce(array, accumulator) {
   // Your code here
   const checkObject = [{price: 10},{price: 20},{price: 30}];
   const checkArray = [10, 20, 30];
