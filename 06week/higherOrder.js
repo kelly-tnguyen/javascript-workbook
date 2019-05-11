@@ -21,29 +21,41 @@ console.log(mapIt);
 
 function filter(arr, callback) {
   // Your code here
-}
-
-
-function reduce(array, accumulator) {
-  // Your code here
-  const checkObject = [{price: 10},{price: 20},{price: 30}];
-  const checkArray = [10, 20, 30];
-  function reduce(array, accumulator) {
-    accumulator = accumulator || 0;
-    for (let index = 0; index < array.length; index++) {
-      if(typeof array[index] == 'number') {
-        accumulator = accumulator + array[index];
-      } else if(typeof array[index] == 'object') {
-        for(let i in array[index]){
-          accumulator = accumulator + array[index][i];
-        }
-      }   
+  let filtered = []
+  for (let i = 0; i < arr.length; i++){
+    if(callback(arr[i]) === true) {
+      filtered.push(arr[i]);
     }
-    return accumulator;
   }
-  const sum = reduce(checkArray, 10); // Set accumulator to 10
-  console.log("ANSWER: ",sum);
+  return filtered;
 }
+
+//this variable checks objects
+const checkObject = [{price: 10},{price: 20}, {price: 30}];
+//this variable checks arrays
+const checkArray = [10,20,30];
+function reduce(array, accumulator) {
+  //the accumulator equals what the user puts in or zero
+  accumulator = accumulator || 0;
+  //this will loop through the array or object
+  for (let index = 0; index < array.length; index++) {
+    //if the array is a number
+    if(typeof array[index] == 'number') {
+      //then the number at array is added to the accumulator
+      accumulator = accumulator + array[index];
+      //else if the array is an object
+    } else if (typeof array[index] == 'object') {
+      //then loop through the object
+      for(let i in array[index]) {
+        // and then add the value of the object to the accumulator
+        accumulator = accumulator + array[index][i];
+      }
+    }
+  }
+  return accumulator;
+}
+
+
 
 // Tests
 if (typeof describe === 'function') {
