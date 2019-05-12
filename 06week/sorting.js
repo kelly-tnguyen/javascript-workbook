@@ -9,29 +9,32 @@ console.log(stringsToNumbs(strNums));
 
 
 // With the same numbers, find the sum of the even values
-const nums = stringsToNumbs(strNums);
 
-const sumEvens = (evens) => {
-  newArr = [];
-  for (let i = 0; i < evens.length; i++) {
-    if (evens[i] % 2 == 0) {
-      newArr.push(evens[i]);
-    }
+const numberArr = stringsToNumbs(strNums);
+// with the same numbers, find the sum of the even values
+const evenArr = [];
+const sumEvens = numberArr.filter(function(num){
+  if(num % 2 === 0) {
+    evenArr.push(num);
   }
-  const reducer = (accumulator, currentValue) => accumulator + currentValue;
-  console.log(newArr.reduce(reducer));
-};
+});
 
 console.log(sumEvens);
+const reduce = evenArr.reduce(function(accumulator, currentValue){
+  accumulator += currentValue;
+  return accumulator;
+});
+console.log(reduce);
+
 
 
 
 // Find the index of the first value when added to it's index = 512 (#ATX!!)
-const atxIdx = nums.findIndex(function(value, index) {
+const atxIdx = numberArr.findIndex(function(value, index) {
   return value + index === 512;
 })
 
-console.log(`index: ${atxIdx}, value: ${nums[atxIdx]}`);
+console.log(`index: ${atxIdx}, value: ${numberArr[atxIdx]}`);
 
 const weather = [
   { id: 5743823523151872,
